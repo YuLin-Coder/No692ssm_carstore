@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.SupplierDAO">
+	<resultMap type="supplier" id="supplierMap">
+		<id property="supplierid" column="supplierid" />
+		<result property="supname" column="supname" />
+		<result property="contents" column="contents" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertSupplier" parameterType="supplier">
+		insert into supplier(supplierid , supname , contents ) values(#{supplierid}
+		, #{supname} , #{contents} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateSupplier" parameterType="supplier">
+		update supplier set supname=#{supname} , contents=#{contents} where
+		supplierid=#{supplierid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteSupplier" parameterType="String">
+		delete from supplier
+		where supplierid = #{supplierid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllSupplier" resultMap="supplierMap">
+		select a.* from supplier a where 1=1 order by supplierid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getSupplierById" parameterType="String"
+		resultMap="supplierMap">
+		select a.* from supplier a where 1=1 and supplierid=#{supplierid} order by
+		supplierid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getSupplierByCond" parameterType="supplier"
+		resultMap="supplierMap">
+		select a.* from supplier a where 1=1
+		<if test="supname != null and '' != supname">
+			and a.supname = #{supname}
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents = #{contents}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getSupplierByLike" parameterType="supplier"
+		resultMap="supplierMap">
+		select a.* from supplier a where 1=1
+		<if test="supname != null and '' != supname">
+			and a.supname like CONCAT('%', CONCAT(#{supname}, '%'))
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents like CONCAT('%', CONCAT(#{contents}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  -->

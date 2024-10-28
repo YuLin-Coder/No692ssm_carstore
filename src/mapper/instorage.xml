@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.InstorageDAO">
+	<resultMap type="instorage" id="instorageMap">
+		<id property="instorageid" column="instorageid" />
+		<result property="goodsid" column="goodsid" />
+		<result property="num" column="num" />
+		<result property="adminid" column="adminid" />
+		<result property="addtime" column="addtime" />
+		<result property="goodsname" column="goodsname" />
+		<result property="username" column="username" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertInstorage" parameterType="instorage">
+		insert into instorage(instorageid , goodsid , num , adminid , addtime )
+		values(#{instorageid} , #{goodsid} , #{num} , #{adminid} , #{addtime}
+		)
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateInstorage" parameterType="instorage">
+		update instorage set goodsid=#{goodsid} , num=#{num} , adminid=#{adminid} ,
+		addtime=#{addtime} where instorageid=#{instorageid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteInstorage" parameterType="String">
+		delete from instorage
+		where instorageid = #{instorageid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllInstorage" resultMap="instorageMap">
+		select a.* , b.goodsname , c.username from instorage a , goods b , admin c
+		where 1=1 and a.goodsid = b.goodsid and a.adminid = c.adminid order by
+		instorageid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getInstorageById" parameterType="String"
+		resultMap="instorageMap">
+		select a.* , b.goodsname , c.username from instorage a , goods b , admin c
+		where 1=1 and a.goodsid = b.goodsid and a.adminid = c.adminid and
+		instorageid=#{instorageid} order by instorageid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getInstorageByCond" parameterType="instorage"
+		resultMap="instorageMap">
+		select a.* , b.goodsname , c.username from instorage a , goods b ,
+		admin c where 1=1 and a.goodsid = b.goodsid and a.adminid = c.adminid
+		<if test="goodsid != null and '' != goodsid">
+			and a.goodsid = #{goodsid}
+		</if>
+		<if test="num != null and '' != num">
+			and a.num = #{num}
+		</if>
+		<if test="adminid != null and '' != adminid">
+			and a.adminid = #{adminid}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getInstorageByLike" parameterType="instorage"
+		resultMap="instorageMap">
+		select a.* , b.goodsname , c.username from instorage a , goods b ,
+		admin c where 1=1 and a.goodsid = b.goodsid and a.adminid = c.adminid
+		<if test="goodsid != null and '' != goodsid">
+			and b.cateid like CONCAT('%', CONCAT(#{goodsid}, '%'))
+		</if>
+		<if test="num != null and '' != num">
+			and a.num like CONCAT('%', CONCAT(#{num}, '%'))
+		</if>
+		<if test="adminid != null and '' != adminid">
+			and c.username like CONCAT('%', CONCAT(#{adminid}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  -->

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.OutstorageDAO">
+	<resultMap type="outstorage" id="outstorageMap">
+		<id property="outstorageid" column="outstorageid" />
+		<result property="ordersid" column="ordersid" />
+		<result property="goodsid" column="goodsid" />
+		<result property="num" column="num" />
+		<result property="adminid" column="adminid" />
+		<result property="addtime" column="addtime" />
+		<result property="ordercode" column="ordercode" />
+		<result property="goodsname" column="goodsname" />
+		<result property="username" column="username" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertOutstorage" parameterType="outstorage">
+		insert into
+		outstorage(outstorageid , ordersid , goodsid , num , adminid ,
+		addtime
+		) values(#{outstorageid} , #{ordersid} , #{goodsid} , #{num} ,
+		#{adminid} , #{addtime} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateOutstorage" parameterType="outstorage">
+		update outstorage
+		set ordersid=#{ordersid} , goodsid=#{goodsid} , num=#{num}
+		,
+		adminid=#{adminid} , addtime=#{addtime} where
+		outstorageid=#{outstorageid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteOutstorage" parameterType="String">
+		delete from
+		outstorage where outstorageid = #{outstorageid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllOutstorage" resultMap="outstorageMap">
+		select a.* , b.ordercode
+		, c.goodsname , d.username from outstorage a ,
+		orders b , goods c ,
+		admin d where 1=1 and a.ordersid = b.ordersid and
+		a.goodsid = c.goodsid
+		and a.adminid = d.adminid order by outstorageid
+		desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getOutstorageById" parameterType="String"
+		resultMap="outstorageMap">
+		select a.* , b.ordercode , c.goodsname , d.username from
+		outstorage a ,
+		orders b , goods c , admin d where 1=1 and a.ordersid =
+		b.ordersid and
+		a.goodsid = c.goodsid and a.adminid = d.adminid and
+		outstorageid=#{outstorageid} order by outstorageid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getOutstorageByCond" parameterType="outstorage"
+		resultMap="outstorageMap">
+		select a.* , b.ordercode , c.goodsname , d.username from outstorage a
+		, orders b , goods c , admin d where 1=1 and a.ordersid = b.ordersid
+		and a.goodsid = c.goodsid and a.adminid = d.adminid
+		<if test="ordersid != null and '' != ordersid">
+			and a.ordersid = #{ordersid}
+		</if>
+		<if test="goodsid != null and '' != goodsid">
+			and a.goodsid = #{goodsid}
+		</if>
+		<if test="num != null and '' != num">
+			and a.num = #{num}
+		</if>
+		<if test="adminid != null and '' != adminid">
+			and a.adminid = #{adminid}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getOutstorageByLike" parameterType="outstorage"
+		resultMap="outstorageMap">
+		select a.* , b.ordercode , c.goodsname , d.username from outstorage a
+		, orders b , goods c , admin d where 1=1 and a.ordersid = b.ordersid
+		and a.goodsid = c.goodsid and a.adminid = d.adminid
+		<if test="ordersid != null and '' != ordersid">
+			and b.ordercode like CONCAT('%', CONCAT(#{ordersid}, '%'))
+		</if>
+		<if test="goodsid != null and '' != goodsid">
+			and c.goodsid like CONCAT('%', CONCAT(#{goodsid}, '%'))
+		</if>
+		<if test="num != null and '' != num">
+			and a.num like CONCAT('%', CONCAT(#{num}, '%'))
+		</if>
+		<if test="adminid != null and '' != adminid">
+			and d.username like CONCAT('%', CONCAT(#{adminid}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  -->

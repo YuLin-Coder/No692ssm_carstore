@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.RacksDAO">
+	<resultMap type="racks" id="racksMap">
+		<id property="racksid" column="racksid" />
+		<result property="racksno" column="racksno" />
+		<result property="contents" column="contents" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertRacks" parameterType="racks">
+		insert into racks(racksid , racksno , contents ) values(#{racksid} ,
+		#{racksno} , #{contents} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateRacks" parameterType="racks">
+		update racks set racksno=#{racksno} , contents=#{contents} where
+		racksid=#{racksid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteRacks" parameterType="String">
+		delete from racks where
+		racksid = #{racksid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllRacks" resultMap="racksMap">
+		select a.* from racks a where 1=1 order by racksid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getRacksById" parameterType="String"
+		resultMap="racksMap">
+		select a.* from racks a where 1=1 and racksid=#{racksid} order by racksid
+		desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getRacksByCond" parameterType="racks"
+		resultMap="racksMap">
+		select a.* from racks a where 1=1
+		<if test="racksno != null and '' != racksno">
+			and a.racksno = #{racksno}
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents = #{contents}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getRacksByLike" parameterType="racks"
+		resultMap="racksMap">
+		select a.* from racks a where 1=1
+		<if test="racksno != null and '' != racksno">
+			and a.racksno like CONCAT('%', CONCAT(#{racksno}, '%'))
+		</if>
+		<if test="contents != null and '' != contents">
+			and a.contents like CONCAT('%', CONCAT(#{contents}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  -->

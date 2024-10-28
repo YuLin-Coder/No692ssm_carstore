@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="admin" type="com.entity.Admin" />
+		<typeAlias alias="users" type="com.entity.Users" />
+		<typeAlias alias="supplier" type="com.entity.Supplier" />
+		<typeAlias alias="racks" type="com.entity.Racks" />
+		<typeAlias alias="cate" type="com.entity.Cate" />
+		<typeAlias alias="goods" type="com.entity.Goods" />
+		<typeAlias alias="fav" type="com.entity.Fav" />
+		<typeAlias alias="instorage" type="com.entity.Instorage" />
+		<typeAlias alias="cart" type="com.entity.Cart" />
+		<typeAlias alias="orders" type="com.entity.Orders" />
+		<typeAlias alias="details" type="com.entity.Details" />
+		<typeAlias alias="outstorage" type="com.entity.Outstorage" />
+		<typeAlias alias="topic" type="com.entity.Topic" />
+		<typeAlias alias="article" type="com.entity.Article" />
+	</typeAliases>
+	<mappers>
+		<mapper resource="mapper/admin.xml" />
+		<mapper resource="mapper/users.xml" />
+		<mapper resource="mapper/supplier.xml" />
+		<mapper resource="mapper/racks.xml" />
+		<mapper resource="mapper/cate.xml" />
+		<mapper resource="mapper/goods.xml" />
+		<mapper resource="mapper/fav.xml" />
+		<mapper resource="mapper/instorage.xml" />
+		<mapper resource="mapper/cart.xml" />
+		<mapper resource="mapper/orders.xml" />
+		<mapper resource="mapper/details.xml" />
+		<mapper resource="mapper/outstorage.xml" />
+		<mapper resource="mapper/topic.xml" />
+		<mapper resource="mapper/article.xml" />
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  -->

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.GoodsDAO">
+	<resultMap type="goods" id="goodsMap">
+		<id property="goodsid" column="goodsid" />
+		<result property="cateid" column="cateid" />
+		<result property="brand" column="brand" />
+		<result property="type" column="type" />
+		<result property="size" column="size" />
+		<result property="seating" column="seating" />
+		<result property="image" column="image" />
+		<result property="color" column="color" />
+		<result property="supplierid" column="supplierid" />
+		<result property="racksid" column="racksid" />
+		<result property="price" column="price" />
+		<result property="storage" column="storage" />
+		<result property="sellnum" column="sellnum" />
+		<result property="hits" column="hits" />
+		<result property="recommend" column="recommend" />
+		<result property="special" column="special" />
+		<result property="addtime" column="addtime" />
+		<result property="catename" column="catename" />
+		<result property="supname" column="supname" />
+		<result property="racksno" column="racksno" />
+		<result property="goodsname" column="goodsname" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertGoods" parameterType="goods">
+		insert into goods(goodsid
+		, cateid , brand , type , size , seating , image ,
+		color , supplierid ,
+		racksid , price , storage , sellnum , hits ,
+		recommend , special ,
+		addtime , goodsname ) values(#{goodsid} , #{cateid} ,
+		#{brand} ,
+		#{type} , #{size} , #{seating} , #{image} , #{color} ,
+		#{supplierid} ,
+		#{racksid} , #{price} , #{storage} , #{sellnum} ,
+		#{hits} ,
+		#{recommend} , #{special} , #{addtime} , #{goodsname} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateGoods" parameterType="goods">
+		update goods set
+		cateid=#{cateid} , brand=#{brand} , type=#{type} ,
+		size=#{size} ,
+		seating=#{seating} , image=#{image} , color=#{color} ,
+		supplierid=#{supplierid} , racksid=#{racksid} , price=#{price} ,
+		storage=#{storage} , sellnum=#{sellnum} , hits=#{hits} ,
+		recommend=#{recommend} , special=#{special} , addtime=#{addtime} ,
+		goodsname=#{goodsname} where
+		goodsid=#{goodsid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteGoods" parameterType="String">
+		delete from goods where
+		goodsid = #{goodsid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllGoods" resultMap="goodsMap">
+		select a.* , b.catename ,
+		c.supname , d.racksno from goods a , cate b ,
+		supplier c , racks d
+		where 1=1 and a.cateid = b.cateid and
+		a.supplierid = c.supplierid and
+		a.racksid = d.racksid order by goodsid
+		desc
+	</select>
+	<select id="getGoodsByNews" resultMap="goodsMap">
+		select a.* , b.catename
+		from goods a , cate b where a.cateid = b.cateid order by goodsid desc
+		limit 5
+	</select>
+
+	<select id="getGoodsByHot" resultMap="goodsMap">
+		select a.* , b.catename
+		from goods a , cate b where a.cateid = b.cateid order by sellnum desc
+		limit 5
+	</select>
+
+	<select id="getGoodsByCate" parameterType="String"
+		resultMap="goodsMap">
+		select a.* , b.catename from goods a , cate b where a.cateid
+		= b.cateid and a.cateid=#{cateid} order by sellnum desc limit 5
+	</select>
+
+	<select id="getGoodsBySupplier" parameterType="String"
+		resultMap="goodsMap">
+		select a.* , b.supname from goods a , supplier b where
+		a.supplierid = b.supplierid and a.supplierid=#{supplierid} order by
+		sellnum desc limit 5
+	</select>
+
+	<select id="getGoodsByRacks" parameterType="String"
+		resultMap="goodsMap">
+		select a.* , b.racksno from goods a , racks b where
+		a.racksid = b.racksid and a.supplierid=#{supplierid} order by sellnum
+		desc limit 5
+	</select>
+
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getGoodsById" parameterType="String"
+		resultMap="goodsMap">
+		select a.* , b.catename , c.supname , d.racksno from goods a
+		, cate b ,
+		supplier c , racks d where 1=1 and a.cateid = b.cateid and
+		a.supplierid = c.supplierid and a.racksid = d.racksid and
+		goodsid=#{goodsid} order by goodsid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getGoodsByCond" parameterType="goods"
+		resultMap="goodsMap">
+		select a.* , b.catename , c.supname , d.racksno from goods a , cate b
+		, supplier c , racks d where 1=1 and a.cateid = b.cateid and
+		a.supplierid = c.supplierid and a.racksid = d.racksid
+		<if test="cateid != null and '' != cateid">
+			and a.cateid = #{cateid}
+		</if>
+		<if test="brand != null and '' != brand">
+			and a.brand = #{brand}
+		</if>
+		<if test="type != null and '' != type">
+			and a.type = #{type}
+		</if>
+		<if test="size != null and '' != size">
+			and a.size = #{size}
+		</if>
+		<if test="seating != null and '' != seating">
+			and a.seating = #{seating}
+		</if>
+		<if test="image != null and '' != image">
+			and a.image = #{image}
+		</if>
+		<if test="color != null and '' != color">
+			and a.color = #{color}
+		</if>
+		<if test="supplierid != null and '' != supplierid">
+			and a.supplierid = #{supplierid}
+		</if>
+		<if test="racksid != null and '' != racksid">
+			and a.racksid = #{racksid}
+		</if>
+		<if test="price != null and '' != price">
+			and a.price = #{price}
+		</if>
+		<if test="storage != null and '' != storage">
+			and a.storage = #{storage}
+		</if>
+		<if test="sellnum != null and '' != sellnum">
+			and a.sellnum = #{sellnum}
+		</if>
+		<if test="hits != null and '' != hits">
+			and a.hits = #{hits}
+		</if>
+		<if test="recommend != null and '' != recommend">
+			and a.recommend = #{recommend}
+		</if>
+		<if test="special != null and '' != special">
+			and a.special = #{special}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="goodsname != null and '' != goodsname">
+			and a.goodsname = #{goodsname}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getGoodsByLike" parameterType="goods"
+		resultMap="goodsMap">
+		select a.* , b.catename , c.supname , d.racksno from goods a , cate b
+		, supplier c , racks d where 1=1 and a.cateid = b.cateid and
+		a.supplierid = c.supplierid and a.racksid = d.racksid
+		<if test="cateid != null and '' != cateid">
+			and b.catename like CONCAT('%', CONCAT(#{cateid}, '%'))
+		</if>
+		<if test="brand != null and '' != brand">
+			and a.brand like CONCAT('%', CONCAT(#{brand}, '%'))
+		</if>
+		<if test="type != null and '' != type">
+			and a.type like CONCAT('%', CONCAT(#{type}, '%'))
+		</if>
+		<if test="size != null and '' != size">
+			and a.size like CONCAT('%', CONCAT(#{size}, '%'))
+		</if>
+		<if test="seating != null and '' != seating">
+			and a.seating like CONCAT('%', CONCAT(#{seating}, '%'))
+		</if>
+		<if test="image != null and '' != image">
+			and a.image like CONCAT('%', CONCAT(#{image}, '%'))
+		</if>
+		<if test="color != null and '' != color">
+			and a.color like CONCAT('%', CONCAT(#{color}, '%'))
+		</if>
+		<if test="supplierid != null and '' != supplierid">
+			and c.supname like CONCAT('%', CONCAT(#{supplierid}, '%'))
+		</if>
+		<if test="racksid != null and '' != racksid">
+			and d.racksno like CONCAT('%', CONCAT(#{racksid}, '%'))
+		</if>
+		<if test="price != null and '' != price">
+			and a.price like CONCAT('%', CONCAT(#{price}, '%'))
+		</if>
+		<if test="storage != null and '' != storage">
+			and a.storage like CONCAT('%', CONCAT(#{storage}, '%'))
+		</if>
+		<if test="sellnum != null and '' != sellnum">
+			and a.sellnum like CONCAT('%', CONCAT(#{sellnum}, '%'))
+		</if>
+		<if test="hits != null and '' != hits">
+			and a.hits like CONCAT('%', CONCAT(#{hits}, '%'))
+		</if>
+		<if test="recommend != null and '' != recommend">
+			and a.recommend like CONCAT('%', CONCAT(#{recommend},
+			'%'))
+		</if>
+		<if test="special != null and '' != special">
+			and a.special like CONCAT('%', CONCAT(#{special}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="goodsname != null and '' != goodsname">
+			and a.goodsname like CONCAT('%', CONCAT(#{goodsname},
+			'%'))
+		</if>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  -->
